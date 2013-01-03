@@ -11,7 +11,8 @@ module Gatherer
       text: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_textRow',
       flavor_text: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_flavorRow',
       set: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_setRow',
-      other_sets: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsRow'
+      other_sets: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsRow',
+      pt: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ptRow'
     }
 
     def initialize(html)
@@ -112,6 +113,37 @@ module Gatherer
       other_printings = row.css('img').map { |img| img['title'] }
 
       (printing + other_printings).uniq
+    end
+
+    def power(parsed_text = extract_power_toughness)
+      parsed_text.split('/').first unless parsed_text.empty?
+    end
+
+    def toughness(parsed_text = extract_power_toughness)
+      parsed_text.split('/').last unless parsed_text.empty?
+    end
+
+    def extract_power_toughness
+      row = document.css(SELECTORS[:pt])
+      row.css('div.value').text
+    end
+
+    def number(parsed_text = extract_number)
+      parsed_text.to_i
+    end
+
+    def extract_number
+      row = document.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_numberRow')
+      row.css('div.value').text
+    end
+
+    def illustrator(parsed_text = extract_illustrator)
+      parsed_text.strip
+    end
+
+    def extract_illustrator
+      row = document.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_artistRow')
+      row.css('div.value').text
     end
   end
 end
