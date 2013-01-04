@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.description = "Gatherer is a gem to scrape Magic: The Gathering cards."
 
   s.required_rubygems_version = ">= 1.3.6"
-  s.rubyforge_project         = "gatherer"
   s.add_dependency "httparty", "~> 0.9.0"
   s.add_dependency "nokogiri", "~> 1.5.5"
   s.files        = Dir["{lib}/**/*.rb", "bin/*", "LICENSE", "*.md"]
