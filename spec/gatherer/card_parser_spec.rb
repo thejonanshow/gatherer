@@ -67,6 +67,12 @@ describe Gatherer::CardParser do
       end
     end
 
+    context "expansions" do
+      it "correctly determines the expansion abbreviation" do
+        parser.abbreviation(parser.current_printing.expansion.title).should == "1E"
+      end
+    end
+
     it "correctly determines the power" do
       parser.power.should be_nil
     end
@@ -139,6 +145,13 @@ describe Gatherer::CardParser do
       titles.should == ["Aomori", "Fukushima"]
     end
 
+    context "expansions" do
+      it "correctly determines the expansion abbreviation" do
+        parsed_text = "../../Handlers/Image.ashx?type=symbol&set=UNH&size=small&rarity=R"
+        parser.abbreviation("Unhinged", parsed_text).should == "UNH"
+      end
+    end
+
     it "correctly determines the power" do
       parsed_text = "*/*+1"
       parser.power(parsed_text).should == "*"
@@ -197,12 +210,12 @@ describe Gatherer::CardParser do
         text: "Change the text of target spell or permanent by replacing all instances of one basic land type with another. (For example, you may change \"swampwalk\" to \"plainswalk.\" This effect lasts indefinitely.)",
         flavor_text: "",
         printings: [
-          {:expansion=>"Limited Edition Alpha", :rarity=>"Rare", :number => 0},
-          {:expansion=>"Limited Edition Beta", :rarity=>"Rare", :number => nil},
-          {:expansion=>"Unlimited Edition", :rarity=>"Rare", :number => nil},
-          {:expansion=>"Revised Edition", :rarity=>"Rare", :number => nil},
-          {:expansion=>"Fourth Edition", :rarity=>"Rare", :number => nil},
-          {:expansion=>"Fifth Edition", :rarity=>"Rare", :number => nil}],
+          {expansion: {title: "Limited Edition Alpha", abbreviation: "1E"}, :rarity=>"Rare", :number => 0},
+          {expansion: {title: "Limited Edition Beta", abbreviation: "2E"}, :rarity=>"Rare", :number => nil},
+          {expansion: {title: "Unlimited Edition", abbreviation: "2U"}, :rarity=>"Rare", :number => nil},
+          {expansion: {title: "Revised Edition", abbreviation: "3E"}, :rarity=>"Rare", :number => nil},
+          {expansion: {title: "Fourth Edition", abbreviation: "4E"}, :rarity=>"Rare", :number => nil},
+          {expansion: {title: "Fifth Edition", abbreviation: "5E"}, :rarity=>"Rare", :number => nil}],
         power: nil,
         toughness: nil,
         loyalty: nil,

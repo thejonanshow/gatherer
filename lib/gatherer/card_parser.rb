@@ -106,7 +106,7 @@ module Gatherer
     def parse_printing(printing)
       title = printing.split(' (').first
       Printing.new(
-        expansion: Expansion.new(:title => title),
+        expansion: Expansion.new(title: title, abbreviation: abbreviation(title)),
         rarity: printing.split(' (').last.chop,
         number: (number if current_printing?(title))
       )
@@ -149,6 +149,20 @@ module Gatherer
     def extract_other_printings
       row = document.css(SELECTORS[:other_sets])
       row.css('img').map { |img| img['title'] }
+    end
+
+    def abbreviation(title, parsed_text = nil)
+      parsed_text ||= extract_abbreviation(title)
+      parsed_text.split('&set=').last.split('&').first if parsed_text
+    end
+
+    def extract_abbreviation(title)
+      images = document.css(SELECTORS[:set]).css('img')
+      images += document.css(SELECTORS[:other_sets]).css('img')
+
+      images.map do |image|
+        image['src'] if image['title'].include?(title)
+      end.compact.uniq.first
     end
 
     def power(parsed_text = extract_power_toughness)

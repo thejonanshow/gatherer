@@ -10,7 +10,7 @@ module Gatherer
 
     def to_hash
       {
-        expansion: @expansion.title,
+        expansion: @expansion.to_hash,
         rarity: @rarity,
         number: @number
       }

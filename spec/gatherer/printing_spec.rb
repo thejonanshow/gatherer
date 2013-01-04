@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe Gatherer::Printing do
-  let(:expansion) { mock(:expansion, title: "Fake") }
+  let(:expansion) {
+    Gatherer::Expansion.new(title: "Magic 2014", abbreviation: "M14")
+  }
   let(:printing) {
     Gatherer::Printing.new(
       expansion: expansion,
@@ -18,7 +20,7 @@ describe Gatherer::Printing do
   context "#to_hash" do
     it "returns a hash of printing attributes" do
       printing.to_hash.should == {
-        expansion: expansion.title,
+        expansion: {title: expansion.title, abbreviation: expansion.abbreviation},
         rarity: printing.rarity,
         number: printing.number
       }
