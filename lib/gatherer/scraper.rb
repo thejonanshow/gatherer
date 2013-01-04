@@ -4,6 +4,7 @@ module Gatherer
 
     def initialize(params = {})
       @query = ''
+      @subpath = ''
 
       options = params.map do |k,v|
         send(k, v)
@@ -15,7 +16,7 @@ module Gatherer
     end
 
     def url
-      BASE_PATH + (@query.empty? ? '' : '?' + @query)
+      BASE_PATH + @subpath + (@query.empty? ? '' : '?' + @query)
     end
 
     def set(name)
@@ -27,6 +28,7 @@ module Gatherer
     end
 
     def multiverse_id(id)
+      @subpath = "/Pages/Card/Details.aspx"
       "multiverseid=#{id}"
     end
   end

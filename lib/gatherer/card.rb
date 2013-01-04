@@ -1,3 +1,4 @@
+require 'open-uri'
 require 'nokogiri'
 require 'gatherer/card_parser'
 
@@ -32,11 +33,50 @@ module Gatherer
       "Green or Red" => "(G/R)"
     }
 
-    attr_reader :title, :types
+    attr_reader :title,
+                :types,
+                :mana_cost,
+                :converted_mana_cost,
+                :subtypes,
+                :text,
+                :flavor_text,
+                :printings,
+                :power,
+                :toughness,
+                :loyalty,
+                :illustrator
 
     def initialize(attributes = {})
       @title = attributes[:title]
       @types = attributes[:types]
+      @mana_cost = attributes[:mana_cost]
+      @converted_mana_cost = attributes[:converted_mana_cost]
+      @subtypes = attributes[:subtypes]
+      @text = attributes[:text]
+      @flavor_text = attributes[:flavor_text]
+      @printings = attributes[:printings]
+      @power = attributes[:power]
+      @toughness = attributes[:toughness]
+      @loyalty = attributes[:loyalty]
+      @illustrator = attributes[:illustrator]
+    end
+
+    def self.new_from_parser(parser)
+      new(
+        title: parser.title,
+        types: parser.types,
+        mana_cost: parser.mana_cost,
+        converted_mana_cost: parser.converted_mana_cost,
+        subtypes: parser.subtypes,
+        text: parser.text,
+        flavor_text: parser.flavor_text,
+        printings: parser.printings,
+        power: parser.power,
+        toughness: parser.toughness,
+        loyalty: parser.loyalty,
+        number: parser.number,
+        illustrator: parser.illustrator
+      )
     end
   end
 end

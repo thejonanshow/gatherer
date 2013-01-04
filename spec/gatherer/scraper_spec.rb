@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Gatherer::Scraper do
-  describe "#url" do
+  context "#url" do
     it "is created with a valid url" do
       Gatherer::Scraper.new.url.should be_valid_url
     end
@@ -19,6 +19,11 @@ describe Gatherer::Scraper do
     it "is created with a valid url given a multiverse id" do
       gatherer = Gatherer::Scraper.new(:multiverse_id => 1)
       gatherer.url.should be_valid_url
+    end
+
+    it "is created with the a page detail url given a multiverse id" do
+      gatherer = Gatherer::Scraper.new(:multiverse_id => 1)
+      gatherer.url.should include("Pages/Card/Details.aspx")
     end
 
     it "is created with a valid url given multiple parameters" do

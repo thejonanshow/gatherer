@@ -2,6 +2,10 @@ require 'spec_helper'
 require 'gatherer/card_parser'
 
 describe Gatherer::CardParser do
+  it "should raise a card not found error unless given html with a card" do
+    expect { Gatherer::CardParser.new("<div></div>") }.to raise_error Gatherer::CardNotFound
+  end
+
   context "given html" do
     let(:parser) { Gatherer::CardParser.new(Fixture['magical_hack']) }
 
@@ -40,6 +44,29 @@ describe Gatherer::CardParser do
       parser.printings.map(&:rarity).uniq.should == ["Rare"]
     end
 
+    context "current printings" do
+      let(:parser) { Gatherer::CardParser.new(Fixture['nicol_bolas_planeswalker']) }
+
+      it "correctly assigns the current printing" do
+        parser.current_printing.expansion.title.should == "Magic 2013"
+      end
+
+      it "correctly assigns the card number to the current printing" do
+        parser.current_printing.number.should == 199
+      end
+
+      it "does not assign the card number to other printings" do
+        parser.printings.map(&:number).should == [199, nil, nil]
+      end
+
+      context "#current_printing?" do
+        it "returns true if the title matches the current printing" do
+          parser.stub(:extract_current_printing).and_return("Magic 2014 (Mythic Rare)")
+          parser.current_printing?("Magic 2014").should be_true
+        end
+      end
+    end
+
     it "correctly determines the power" do
       parser.power.should be_nil
     end
@@ -48,8 +75,15 @@ describe Gatherer::CardParser do
       parser.toughness.should be_nil
     end
 
-    it "correctly determines the number" do
-      parser.number.should == 0
+    context "loyalty" do
+      it "correctly determines the loyalty for planeswalkers" do
+        parser = Gatherer::CardParser.new(Fixture['nicol_bolas_planeswalker'])
+        parser.loyalty.should == 5
+      end
+
+      it "correctly determines the loyalty for non-planeswalkers" do
+        parser.loyalty.should be_nil
+      end
     end
 
     it "correctly determines the illustrator" do
@@ -58,7 +92,7 @@ describe Gatherer::CardParser do
   end
 
   context "given arbitrary values" do
-    let(:parser) { Gatherer::CardParser.new("") }
+    let(:parser) { Gatherer::CardParser.new("", false) }
 
     it "correctly determines the title" do
       parsed_text = "Trogdor, The Burninator                       \n"
@@ -110,9 +144,24 @@ describe Gatherer::CardParser do
       parser.power(parsed_text).should == "*"
     end
 
+    it "does not set the power if the text has loyalty" do
+      parsed_text = "\r\n                            5"
+      parser.power(parsed_text).should == nil
+    end
+
     it "correctly determines the toughness" do
       parsed_text = "*/*+1"
       parser.toughness(parsed_text).should == "*+1"
+    end
+
+    it "does not set the toughness if the text has loyalty" do
+      parsed_text = "\r\n                            5"
+      parser.toughness(parsed_text).should == nil
+    end
+
+    it "correctly determines the loyalty" do
+      parsed_text = "\r\n                            5"
+      parser.loyalty(parsed_text).should == 5
     end
 
     it "correctly determines the number" do
@@ -127,11 +176,39 @@ describe Gatherer::CardParser do
   end
 
   context "#replace_mana_symbols" do
-    let(:parser) { Gatherer::CardParser.new("") }
+    let(:parser) { Gatherer::CardParser.new("", false) }
 
     it "replaces images in html with color placeholders" do
       html = "<div><img alt=\"Purple\" /></div>"
       parser.replace_mana_symbols(html).should == "<div>{{Purple}}</div>"
+    end
+  end
+
+  context "#to_hash" do
+    let(:parser) { Gatherer::CardParser.new(Fixture['magical_hack']) }
+
+    it "returns a hash of card attributes" do
+      parser.to_hash.should == {
+        title: "Magical Hack",
+        types: ["Instant"],
+        mana_cost: "U",
+        converted_mana_cost: 1,
+        subtypes: [],
+        text: "Change the text of target spell or permanent by replacing all instances of one basic land type with another. (For example, you may change \"swampwalk\" to \"plainswalk.\" This effect lasts indefinitely.)",
+        flavor_text: "",
+        printings: [
+          {:expansion=>"Limited Edition Alpha", :rarity=>"Rare", :number => 0},
+          {:expansion=>"Limited Edition Beta", :rarity=>"Rare", :number => nil},
+          {:expansion=>"Unlimited Edition", :rarity=>"Rare", :number => nil},
+          {:expansion=>"Revised Edition", :rarity=>"Rare", :number => nil},
+          {:expansion=>"Fourth Edition", :rarity=>"Rare", :number => nil},
+          {:expansion=>"Fifth Edition", :rarity=>"Rare", :number => nil}],
+        power: nil,
+        toughness: nil,
+        loyalty: nil,
+        number: 0,
+        illustrator: "Julie Baroh"
+      }
     end
   end
 end

@@ -12,11 +12,18 @@ module Gatherer
       flavor_text: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_flavorRow',
       set: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_setRow',
       other_sets: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_otherSetsRow',
-      pt: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ptRow'
+      pt: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ptRow',
+      number: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_numberRow',
+      illustrator: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_artistRow'
     }
 
-    def initialize(html)
+    def initialize(html, validate_card_markup = true)
       @document = Nokogiri::HTML(html)
+      validate if validate_card_markup
+    end
+
+    def validate
+      raise CardNotFound if document.css(SELECTORS[:illustrator]).empty?
     end
 
     def title(parsed_text = extract_title)
@@ -96,31 +103,60 @@ module Gatherer
       row.css('div.cardtextbox').text
     end
 
+    def parse_printing(printing)
+      title = printing.split(' (').first
+      Printing.new(
+        expansion: Expansion.new(:title => title),
+        rarity: printing.split(' (').last.chop,
+        number: (number if current_printing?(title))
+      )
+    end
+
     def printings(parsed_text = extract_printings)
       parsed_text.map do |printing|
-        Printing.new(
-          :expansion => Expansion.new(:title => printing.split(' (').first),
-          :rarity => printing.split(' (').last.chop
-        )
+        parse_printing(printing)
       end
     end
 
     def extract_printings
+      ([extract_current_printing] + extract_other_printings).uniq
+    end
+
+    def current_printing(parsed_text = extract_current_printing)
+      parse_printing(parsed_text)
+    end
+
+    def current_printing?(title)
+      current_printing_text = extract_current_printing
+      current_title = current_printing_text.split(' (').first if current_printing_text
+      title == current_title
+    end
+
+    def extract_current_printing
       row = document.css(SELECTORS[:set])
-      printing = row.css('img').map { |img| img['title'] }
+      row.css('img').map { |img| img['title'] }.first
+    end
 
+    def other_printings(parsed_text = extract_other_printings)
+      parsed_text.map do |printing|
+        Printing.new(
+          expansion: Expansion.new(:title => parsed_text.split(' (').first),
+          rarity: parsed_text.split(' (').last.chop
+        )
+      end
+    end
+
+    def extract_other_printings
       row = document.css(SELECTORS[:other_sets])
-      other_printings = row.css('img').map { |img| img['title'] }
-
-      (printing + other_printings).uniq
+      row.css('img').map { |img| img['title'] }
     end
 
     def power(parsed_text = extract_power_toughness)
-      parsed_text.split('/').first unless parsed_text.empty?
+      parsed_text.split('/').first if parsed_text.include?('/')
     end
 
     def toughness(parsed_text = extract_power_toughness)
-      parsed_text.split('/').last unless parsed_text.empty?
+      parsed_text.split('/').last if parsed_text.include?('/')
     end
 
     def extract_power_toughness
@@ -128,12 +164,19 @@ module Gatherer
       row.css('div.value').text
     end
 
+    # gatherer uses the pt row to display loyalty
+    def loyalty(parsed_text = extract_power_toughness)
+      unless parsed_text.include?('/')
+        parsed_text.to_i if parsed_text.to_i > 0
+      end
+    end
+
     def number(parsed_text = extract_number)
       parsed_text.to_i
     end
 
     def extract_number
-      row = document.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_numberRow')
+      row = document.css(SELECTORS[:number])
       row.css('div.value').text
     end
 
@@ -142,8 +185,32 @@ module Gatherer
     end
 
     def extract_illustrator
-      row = document.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_artistRow')
+      row = document.css(SELECTORS[:illustrator])
       row.css('div.value').text
+    end
+
+    def to_hash
+      {
+        title: title,
+        types: types,
+        mana_cost: mana_cost,
+        converted_mana_cost: converted_mana_cost,
+        subtypes: subtypes,
+        text: text,
+        flavor_text: flavor_text,
+        printings: printings.map(&:to_hash),
+        power: power,
+        toughness: toughness,
+        loyalty: loyalty,
+        number: number,
+        illustrator: illustrator
+      }
+    end
+  end
+
+  class CardNotFound < StandardError
+    def initialize
+      super("Could not find card.")
     end
   end
 end
