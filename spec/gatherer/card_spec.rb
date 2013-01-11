@@ -64,14 +64,14 @@ describe Gatherer::Card do
   end
 
   it "can be created from a parser" do
-    parser = Gatherer::CardParser.new(Fixture['magical_hack'])
+    parser = Gatherer::CardParser.new(Fixture.html 'magical_hack')
     card = Gatherer::Card.new_from_parser(parser)
     card.title.should == "Magical Hack"
   end
 
   context ".new_from_parser" do
     it "collects all of the attributes from the parser" do
-      parser = Gatherer::CardParser.new(Fixture['magical_hack'])
+      parser = Gatherer::CardParser.new(Fixture.html 'magical_hack')
 
       Gatherer::Card.new.instance_variables.each do |instance_variable|
         parser.should_receive(instance_variable[1..-1])

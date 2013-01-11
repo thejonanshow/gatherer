@@ -7,7 +7,7 @@ describe Gatherer::CardParser do
   end
 
   context "given html" do
-    let(:parser) { Gatherer::CardParser.new(Fixture['magical_hack']) }
+    let(:parser) { Gatherer::CardParser.new(Fixture.html 'magical_hack') }
 
     it "correctly determines the title" do
       parser.title.should == "Magical Hack"
@@ -45,7 +45,7 @@ describe Gatherer::CardParser do
     end
 
     context "current printings" do
-      let(:parser) { Gatherer::CardParser.new(Fixture['nicol_bolas_planeswalker']) }
+      let(:parser) { Gatherer::CardParser.new(Fixture.html 'nicol_bolas_planeswalker') }
 
       it "correctly assigns the current printing" do
         parser.current_printing.expansion.title.should == "Magic 2013"
@@ -83,7 +83,7 @@ describe Gatherer::CardParser do
 
     context "loyalty" do
       it "correctly determines the loyalty for planeswalkers" do
-        parser = Gatherer::CardParser.new(Fixture['nicol_bolas_planeswalker'])
+        parser = Gatherer::CardParser.new(Fixture.html 'nicol_bolas_planeswalker')
         parser.loyalty.should == 5
       end
 
@@ -198,7 +198,7 @@ describe Gatherer::CardParser do
   end
 
   context "#to_hash" do
-    let(:parser) { Gatherer::CardParser.new(Fixture['magical_hack']) }
+    let(:parser) { Gatherer::CardParser.new(Fixture.html 'magical_hack') }
 
     it "returns a hash of card attributes" do
       parser.to_hash.should == {
