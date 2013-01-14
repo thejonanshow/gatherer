@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gatherer (0.0.2)
+    gatherer (0.0.3)
       httparty (~> 0.9.0)
       nokogiri (~> 1.5.5)
 

@@ -25,13 +25,18 @@ describe Gatherer::Client do
     let(:expansions) { client.expansions(Fixture.html('homepage'), Fixture.html('return_to_ravnica')) }
 
     it "returns a collection of expansions with titles" do
-      Fixture.yaml('expansions').each do |exp|
-        expansions.map(&:title).should include exp.title
-      end
+      expansions.map(&:title).should include "Return to Ravnica"
     end
 
     it "returns a collections of expansions with abbreviations" do
       expansions.map(&:abbreviation).should include "RTR"
+    end
+  end
+
+  context "#expansion_titles" do
+    it "returns a collection of expansion titles" do
+      titles = client.expansion_titles(Fixture.html('homepage'))
+      titles.should include "Return to Ravnica"
     end
   end
 
