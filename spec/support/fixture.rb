@@ -1,3 +1,5 @@
+require 'yaml'
+
 class Fixture
   def self.html(filename)
     File.read("spec/fixtures/#{filename}.html")

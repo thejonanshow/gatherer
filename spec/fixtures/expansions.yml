@@ -1,115 +1,343 @@
 ---
-- Alara Reborn
-- Alliances
-- Antiquities
-- Apocalypse
-- Arabian Nights
-- Archenemy
-- Avacyn Restored
-- Battle Royale Box Set
-- Beatdown Box Set
-- Betrayers of Kamigawa
-- Champions of Kamigawa
-- Chronicles
-- Classic Sixth Edition
-- Coldsnap
-- Commander's Arsenal
-- Conflux
-- Dark Ascension
-- Darksteel
-- Dissension
-- ! 'Duel Decks: Ajani vs. Nicol Bolas'
-- ! 'Duel Decks: Divine vs. Demonic'
-- ! 'Duel Decks: Elspeth vs. Tezzeret'
-- ! 'Duel Decks: Elves vs. Goblins'
-- ! 'Duel Decks: Garruk vs. Liliana'
-- ! 'Duel Decks: Izzet vs. Golgari'
-- ! 'Duel Decks: Jace vs. Chandra'
-- ! 'Duel Decks: Knights vs. Dragons'
-- ! 'Duel Decks: Phyrexia vs. the Coalition'
-- ! 'Duel Decks: Venser vs. Koth'
-- Eighth Edition
-- Eventide
-- Exodus
-- Fallen Empires
-- Fifth Dawn
-- Fifth Edition
-- Fourth Edition
-- ! 'From the Vault: Dragons'
-- ! 'From the Vault: Exiled'
-- ! 'From the Vault: Legends'
-- ! 'From the Vault: Realms'
-- ! 'From the Vault: Relics'
-- Future Sight
-- Guildpact
-- Homelands
-- Ice Age
-- Innistrad
-- Invasion
-- Judgment
-- Legends
-- Legions
-- Limited Edition Alpha
-- Limited Edition Beta
-- Lorwyn
-- Magic 2010
-- Magic 2011
-- Magic 2012
-- Magic 2013
-- ! 'Magic: The Gathering-Commander'
-- Masters Edition
-- Masters Edition II
-- Masters Edition III
-- Masters Edition IV
-- Mercadian Masques
-- Mirage
-- Mirrodin
-- Mirrodin Besieged
-- Morningtide
-- Nemesis
-- New Phyrexia
-- Ninth Edition
-- Odyssey
-- Onslaught
-- Planar Chaos
-- Planechase
-- Planechase 2012 Edition
-- Planeshift
-- Portal
-- Portal Second Age
-- Portal Three Kingdoms
-- ! 'Premium Deck Series: Fire and Lightning'
-- ! 'Premium Deck Series: Graveborn'
-- ! 'Premium Deck Series: Slivers'
-- Promo set for Gatherer
-- Prophecy
-- ! 'Ravnica: City of Guilds'
-- Return to Ravnica
-- Revised Edition
-- Rise of the Eldrazi
-- Saviors of Kamigawa
-- Scars of Mirrodin
-- Scourge
-- Seventh Edition
-- Shadowmoor
-- Shards of Alara
-- Starter 1999
-- Starter 2000
-- Stronghold
-- Tempest
-- Tenth Edition
-- The Dark
-- Time Spiral
-- Time Spiral "Timeshifted"
-- Torment
-- Unglued
-- Unhinged
-- Unlimited Edition
-- Urza's Destiny
-- Urza's Legacy
-- Urza's Saga
-- Vanguard
-- Visions
-- Weatherlight
-- Worldwake
-- Zendikar
+- !ruby/object:Gatherer::Expansion
+  title: Alara Reborn
+  abbreviation: ARB
+- !ruby/object:Gatherer::Expansion
+  title: Alliances
+  abbreviation: AL
+- !ruby/object:Gatherer::Expansion
+  title: Antiquities
+  abbreviation: AQ
+- !ruby/object:Gatherer::Expansion
+  title: Apocalypse
+  abbreviation: AP
+- !ruby/object:Gatherer::Expansion
+  title: Arabian Nights
+  abbreviation: AN
+- !ruby/object:Gatherer::Expansion
+  title: Archenemy
+  abbreviation: ARC
+- !ruby/object:Gatherer::Expansion
+  title: Avacyn Restored
+  abbreviation: AVR
+- !ruby/object:Gatherer::Expansion
+  title: Battle Royale Box Set
+  abbreviation: BR
+- !ruby/object:Gatherer::Expansion
+  title: Beatdown Box Set
+  abbreviation: BD
+- !ruby/object:Gatherer::Expansion
+  title: Betrayers of Kamigawa
+  abbreviation: BOK
+- !ruby/object:Gatherer::Expansion
+  title: Champions of Kamigawa
+  abbreviation: CHK
+- !ruby/object:Gatherer::Expansion
+  title: Chronicles
+  abbreviation: CH
+- !ruby/object:Gatherer::Expansion
+  title: Classic Sixth Edition
+  abbreviation: 6E
+- !ruby/object:Gatherer::Expansion
+  title: Coldsnap
+  abbreviation: CSP
+- !ruby/object:Gatherer::Expansion
+  title: Commander's Arsenal
+  abbreviation: CM1
+- !ruby/object:Gatherer::Expansion
+  title: Conflux
+  abbreviation: CON
+- !ruby/object:Gatherer::Expansion
+  title: Dark Ascension
+  abbreviation: DKA
+- !ruby/object:Gatherer::Expansion
+  title: Darksteel
+  abbreviation: DST
+- !ruby/object:Gatherer::Expansion
+  title: Dissension
+  abbreviation: DIS
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Ajani vs. Nicol Bolas'
+  abbreviation: DDH
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Divine vs. Demonic'
+  abbreviation: DDC
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Elspeth vs. Tezzeret'
+  abbreviation: DDF
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Elves vs. Goblins'
+  abbreviation: EVG
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Garruk vs. Liliana'
+  abbreviation: DDD
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Izzet vs. Golgari'
+  abbreviation: DDJ
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Jace vs. Chandra'
+  abbreviation: DD2
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Knights vs. Dragons'
+  abbreviation: DDG
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Phyrexia vs. the Coalition'
+  abbreviation: DDE
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Duel Decks: Venser vs. Koth'
+  abbreviation: DDI
+- !ruby/object:Gatherer::Expansion
+  title: Eighth Edition
+  abbreviation: 8ED
+- !ruby/object:Gatherer::Expansion
+  title: Eventide
+  abbreviation: EVE
+- !ruby/object:Gatherer::Expansion
+  title: Exodus
+  abbreviation: EX
+- !ruby/object:Gatherer::Expansion
+  title: Fallen Empires
+  abbreviation: FE
+- !ruby/object:Gatherer::Expansion
+  title: Fifth Dawn
+  abbreviation: 5DN
+- !ruby/object:Gatherer::Expansion
+  title: Fifth Edition
+  abbreviation: 5E
+- !ruby/object:Gatherer::Expansion
+  title: Fourth Edition
+  abbreviation: 4E
+- !ruby/object:Gatherer::Expansion
+  title: ! 'From the Vault: Dragons'
+  abbreviation: DRB
+- !ruby/object:Gatherer::Expansion
+  title: ! 'From the Vault: Exiled'
+  abbreviation: V09
+- !ruby/object:Gatherer::Expansion
+  title: ! 'From the Vault: Legends'
+  abbreviation: V11
+- !ruby/object:Gatherer::Expansion
+  title: ! 'From the Vault: Realms'
+  abbreviation: V12
+- !ruby/object:Gatherer::Expansion
+  title: ! 'From the Vault: Relics'
+  abbreviation: V10
+- !ruby/object:Gatherer::Expansion
+  title: Future Sight
+  abbreviation: FUT
+- !ruby/object:Gatherer::Expansion
+  title: Guildpact
+  abbreviation: GPT
+- !ruby/object:Gatherer::Expansion
+  title: Homelands
+  abbreviation: HM
+- !ruby/object:Gatherer::Expansion
+  title: Ice Age
+  abbreviation: IA
+- !ruby/object:Gatherer::Expansion
+  title: Innistrad
+  abbreviation: ISD
+- !ruby/object:Gatherer::Expansion
+  title: Invasion
+  abbreviation: IN
+- !ruby/object:Gatherer::Expansion
+  title: Judgment
+  abbreviation: JUD
+- !ruby/object:Gatherer::Expansion
+  title: Legends
+  abbreviation: LE
+- !ruby/object:Gatherer::Expansion
+  title: Legions
+  abbreviation: LGN
+- !ruby/object:Gatherer::Expansion
+  title: Limited Edition Alpha
+  abbreviation: 1E
+- !ruby/object:Gatherer::Expansion
+  title: Limited Edition Beta
+  abbreviation: 2E
+- !ruby/object:Gatherer::Expansion
+  title: Lorwyn
+  abbreviation: LRW
+- !ruby/object:Gatherer::Expansion
+  title: Magic 2010
+  abbreviation: M10
+- !ruby/object:Gatherer::Expansion
+  title: Magic 2011
+  abbreviation: M11
+- !ruby/object:Gatherer::Expansion
+  title: Magic 2012
+  abbreviation: M12
+- !ruby/object:Gatherer::Expansion
+  title: Magic 2013
+  abbreviation: M13
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Magic: The Gathering-Commander'
+  abbreviation: CMD
+- !ruby/object:Gatherer::Expansion
+  title: Masters Edition
+  abbreviation: MED
+- !ruby/object:Gatherer::Expansion
+  title: Masters Edition II
+  abbreviation: ME2
+- !ruby/object:Gatherer::Expansion
+  title: Masters Edition III
+  abbreviation: ME3
+- !ruby/object:Gatherer::Expansion
+  title: Masters Edition IV
+  abbreviation: ME4
+- !ruby/object:Gatherer::Expansion
+  title: Mercadian Masques
+  abbreviation: MM
+- !ruby/object:Gatherer::Expansion
+  title: Mirage
+  abbreviation: MI
+- !ruby/object:Gatherer::Expansion
+  title: Mirrodin
+  abbreviation: MRD
+- !ruby/object:Gatherer::Expansion
+  title: Mirrodin Besieged
+  abbreviation: MBS
+- !ruby/object:Gatherer::Expansion
+  title: Morningtide
+  abbreviation: MOR
+- !ruby/object:Gatherer::Expansion
+  title: Nemesis
+  abbreviation: NE
+- !ruby/object:Gatherer::Expansion
+  title: New Phyrexia
+  abbreviation: NPH
+- !ruby/object:Gatherer::Expansion
+  title: Ninth Edition
+  abbreviation: 9ED
+- !ruby/object:Gatherer::Expansion
+  title: Odyssey
+  abbreviation: OD
+- !ruby/object:Gatherer::Expansion
+  title: Onslaught
+  abbreviation: ONS
+- !ruby/object:Gatherer::Expansion
+  title: Planar Chaos
+  abbreviation: PLC
+- !ruby/object:Gatherer::Expansion
+  title: Planechase
+  abbreviation: HOP
+- !ruby/object:Gatherer::Expansion
+  title: Planechase 2012 Edition
+  abbreviation: PC2
+- !ruby/object:Gatherer::Expansion
+  title: Planeshift
+  abbreviation: PS
+- !ruby/object:Gatherer::Expansion
+  title: Portal
+  abbreviation: PO
+- !ruby/object:Gatherer::Expansion
+  title: Portal Second Age
+  abbreviation: P2
+- !ruby/object:Gatherer::Expansion
+  title: Portal Three Kingdoms
+  abbreviation: PK
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Premium Deck Series: Fire and Lightning'
+  abbreviation: PD2
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Premium Deck Series: Graveborn'
+  abbreviation: PD3
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Premium Deck Series: Slivers'
+  abbreviation: H09
+- !ruby/object:Gatherer::Expansion
+  title: Promo set for Gatherer
+  abbreviation: PPR
+- !ruby/object:Gatherer::Expansion
+  title: Prophecy
+  abbreviation: PR
+- !ruby/object:Gatherer::Expansion
+  title: ! 'Ravnica: City of Guilds'
+  abbreviation: RAV
+- !ruby/object:Gatherer::Expansion
+  title: Return to Ravnica
+  abbreviation: RTR
+- !ruby/object:Gatherer::Expansion
+  title: Revised Edition
+  abbreviation: 3E
+- !ruby/object:Gatherer::Expansion
+  title: Rise of the Eldrazi
+  abbreviation: ROE
+- !ruby/object:Gatherer::Expansion
+  title: Saviors of Kamigawa
+  abbreviation: SOK
+- !ruby/object:Gatherer::Expansion
+  title: Scars of Mirrodin
+  abbreviation: SOM
+- !ruby/object:Gatherer::Expansion
+  title: Scourge
+  abbreviation: SCG
+- !ruby/object:Gatherer::Expansion
+  title: Seventh Edition
+  abbreviation: 7E
+- !ruby/object:Gatherer::Expansion
+  title: Shadowmoor
+  abbreviation: SHM
+- !ruby/object:Gatherer::Expansion
+  title: Shards of Alara
+  abbreviation: ALA
+- !ruby/object:Gatherer::Expansion
+  title: Starter 1999
+  abbreviation: P3
+- !ruby/object:Gatherer::Expansion
+  title: Starter 2000
+  abbreviation: P4
+- !ruby/object:Gatherer::Expansion
+  title: Stronghold
+  abbreviation: ST
+- !ruby/object:Gatherer::Expansion
+  title: Tempest
+  abbreviation: TE
+- !ruby/object:Gatherer::Expansion
+  title: Tenth Edition
+  abbreviation: 10E
+- !ruby/object:Gatherer::Expansion
+  title: The Dark
+  abbreviation: DK
+- !ruby/object:Gatherer::Expansion
+  title: Time Spiral
+  abbreviation: TSP
+- !ruby/object:Gatherer::Expansion
+  title: Time Spiral "Timeshifted"
+  abbreviation: TSB
+- !ruby/object:Gatherer::Expansion
+  title: Torment
+  abbreviation: TOR
+- !ruby/object:Gatherer::Expansion
+  title: Unglued
+  abbreviation: UG
+- !ruby/object:Gatherer::Expansion
+  title: Unhinged
+  abbreviation: UNH
+- !ruby/object:Gatherer::Expansion
+  title: Unlimited Edition
+  abbreviation: 2U
+- !ruby/object:Gatherer::Expansion
+  title: Urza's Destiny
+  abbreviation: CG
+- !ruby/object:Gatherer::Expansion
+  title: Urza's Legacy
+  abbreviation: GU
+- !ruby/object:Gatherer::Expansion
+  title: Urza's Saga
+  abbreviation: UZ
+- !ruby/object:Gatherer::Expansion
+  title: Vanguard
+  abbreviation: 
+- !ruby/object:Gatherer::Expansion
+  title: Visions
+  abbreviation: VI
+- !ruby/object:Gatherer::Expansion
+  title: Weatherlight
+  abbreviation: WL
+- !ruby/object:Gatherer::Expansion
+  title: Worldwake
+  abbreviation: WWK
+- !ruby/object:Gatherer::Expansion
+  title: Zendikar
+  abbreviation: ZEN

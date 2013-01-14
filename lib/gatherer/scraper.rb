@@ -19,8 +19,9 @@ module Gatherer
       BASE_PATH + @subpath + (@query.empty? ? '' : '?' + @query)
     end
 
-    def set(name)
-      "set=[#{name}]"
+    def expansion(name)
+      @subpath = "/Pages/Search/Default.aspx"
+      "set=[\"#{name}\"]"
     end
 
     def page(number)
