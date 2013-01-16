@@ -32,6 +32,7 @@ module Gatherer
 
     def extract_title
       row = document.css(SELECTORS[:title])
+      return '' unless row
       title_line = row.css('div.value').text
     end
 
@@ -41,6 +42,7 @@ module Gatherer
 
     def extract_types
       row = document.css(SELECTORS[:types])
+      return '' unless row
       type_line = row.css('div.value').text
     end
 
@@ -50,6 +52,7 @@ module Gatherer
 
     def extract_converted_mana_cost
       row = document.css(SELECTORS[:cmc])
+      return '' unless row
       cmc_line = row.css('div.value').text
     end
 
@@ -60,6 +63,7 @@ module Gatherer
 
     def extract_mana_cost
       row = document.css(SELECTORS[:mana])
+      return '' unless row
       mana_cost_line = row.css('div.value').css('img').map { |img| img['alt'] }
     end
 
@@ -73,6 +77,7 @@ module Gatherer
 
     def extract_subtypes
       row = document.css(SELECTORS[:subtypes])
+      return '' unless row
       row.css('div.value').text
     end
 
@@ -82,6 +87,7 @@ module Gatherer
 
     def extract_text
       row = document.css(SELECTORS[:text]).first
+      return '' unless row
       row.inner_html = replace_mana_symbols(row.inner_html)
       row.css('div.value div.cardtextbox').map(&:text)
     end
@@ -100,6 +106,7 @@ module Gatherer
 
     def extract_flavor_text
       row = document.css(SELECTORS[:flavor_text])
+      return '' unless row
       row.css('div.cardtextbox').text
     end
 
@@ -134,6 +141,7 @@ module Gatherer
 
     def extract_current_printing
       row = document.css(SELECTORS[:set])
+      return '' unless row
       row.css('img').map { |img| img['title'] }.first
     end
 
@@ -148,6 +156,7 @@ module Gatherer
 
     def extract_other_printings
       row = document.css(SELECTORS[:other_sets])
+      return '' unless row
       row.css('img').map { |img| img['title'] }
     end
 
@@ -158,6 +167,7 @@ module Gatherer
 
     def extract_abbreviation(title)
       images = document.css(SELECTORS[:set]).css('img')
+      return '' unless images
       images += document.css(SELECTORS[:other_sets]).css('img')
 
       images.map do |image|
@@ -175,6 +185,7 @@ module Gatherer
 
     def extract_power_toughness
       row = document.css(SELECTORS[:pt])
+      return '' unless row
       row.css('div.value').text
     end
 
@@ -191,6 +202,7 @@ module Gatherer
 
     def extract_number
       row = document.css(SELECTORS[:number])
+      return '' unless row
       row.css('div.value').text
     end
 
@@ -200,6 +212,7 @@ module Gatherer
 
     def extract_illustrator
       row = document.css(SELECTORS[:illustrator])
+      return '' unless row
       row.css('div.value').text
     end
 
