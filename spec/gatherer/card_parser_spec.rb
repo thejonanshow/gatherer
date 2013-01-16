@@ -34,7 +34,7 @@ describe Gatherer::CardParser do
     end
 
     it "correctly determines the flavor text" do
-      parser.flavor_text.should == ""
+      parser.flavor_text.should == nil
     end
 
     it "correctly determines the printings" do
@@ -94,6 +94,64 @@ describe Gatherer::CardParser do
 
     it "correctly determines the illustrator" do
       parser.illustrator.should == "Julie Baroh"
+    end
+  end
+
+  context "given html that does not include the correct css" do
+    let(:parser) { Gatherer::CardParser.new('<html></html>', false) }
+
+    context "does not raise an error attempting to parse the" do
+      it "title" do
+        expect{parser.title}.to_not raise_error
+      end
+
+      it "types" do
+        expect{parser.types}.to_not raise_error
+      end
+
+      it "converted_mana_cost" do
+        expect{parser.converted_mana_cost}.to_not raise_error
+      end
+
+      it "mana_cost" do
+        expect{parser.mana_cost}.to_not raise_error
+      end
+
+      it "subtypes" do
+        expect{parser.subtypes}.to_not raise_error
+      end
+
+      it "text" do
+        expect{parser.text}.to_not raise_error
+      end
+
+      it "flavor_text" do
+        expect{parser.flavor_text}.to_not raise_error
+      end
+
+      it "printings" do
+        expect{parser.printings}.to_not raise_error
+      end
+
+      it "power" do
+        expect{parser.power}.to_not raise_error
+      end
+
+      it "toughness" do
+        expect{parser.toughness}.to_not raise_error
+      end
+
+      it "loyalty" do
+        expect{parser.loyalty}.to_not raise_error
+      end
+
+      it "number" do
+        expect{parser.number}.to_not raise_error
+      end
+
+      it "illustrator" do
+        expect{parser.illustrator}.to_not raise_error
+      end
     end
   end
 
@@ -208,7 +266,7 @@ describe Gatherer::CardParser do
         converted_mana_cost: 1,
         subtypes: [],
         text: "Change the text of target spell or permanent by replacing all instances of one basic land type with another. (For example, you may change \"swampwalk\" to \"plainswalk.\" This effect lasts indefinitely.)",
-        flavor_text: "",
+        flavor_text: nil,
         printings: [
           {expansion: {title: "Limited Edition Alpha", abbreviation: "1E"}, :rarity=>"Rare", :number => 0},
           {expansion: {title: "Limited Edition Beta", abbreviation: "2E"}, :rarity=>"Rare", :number => nil},

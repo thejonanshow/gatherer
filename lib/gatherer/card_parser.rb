@@ -26,34 +26,38 @@ module Gatherer
       raise CardNotFound if document.css(SELECTORS[:illustrator]).empty?
     end
 
+    def find_row(css)
+      document.css(SELECTORS[css])
+    end
+
     def title(parsed_text = extract_title)
       parsed_text.strip
     end
 
     def extract_title
-      row = document.css(SELECTORS[:title])
-      return '' unless row
-      title_line = row.css('div.value').text
+      row = find_row(:title)
+      title_line = row.css('div.value').text if row
     end
 
     def types(parsed_text = extract_types)
-      [parsed_text.strip.split("\u2014").first.split].flatten
+      if parsed_text
+        types = parsed_text.strip.split("\u2014").first
+        types.split.flatten
+      end
     end
 
     def extract_types
-      row = document.css(SELECTORS[:types])
-      return '' unless row
-      type_line = row.css('div.value').text
+      row = find_row(:types)
+      row.css('div.value').text unless row.empty?
     end
 
     def converted_mana_cost(parsed_text = extract_converted_mana_cost)
-      parsed_text.strip.to_i
+      parsed_text.strip.to_i if parsed_text
     end
 
     def extract_converted_mana_cost
-      row = document.css(SELECTORS[:cmc])
-      return '' unless row
-      cmc_line = row.css('div.value').text
+      row = find_row(:cmc)
+      cmc_line = row.css('div.value').text unless row.empty?
     end
 
     def mana_cost(parsed_text = extract_mana_cost)
@@ -62,13 +66,15 @@ module Gatherer
     end
 
     def extract_mana_cost
-      row = document.css(SELECTORS[:mana])
-      return '' unless row
-      mana_cost_line = row.css('div.value').css('img').map { |img| img['alt'] }
+      row = find_row(:mana)
+
+      if row
+        mana_cost_line = row.css('div.value').css('img').map { |img| img['alt'] }
+      end
     end
 
     def subtypes(parsed_text = extract_subtypes)
-      if parsed_text.include?("\u2014")
+      if parsed_text && parsed_text.include?("\u2014")
         parsed_text.split("\u2014").last.split(' ').map { |type| type.strip }
       else
         []
@@ -76,20 +82,22 @@ module Gatherer
     end
 
     def extract_subtypes
-      row = document.css(SELECTORS[:subtypes])
-      return '' unless row
-      row.css('div.value').text
+      row = find_row(:subtypes)
+      row.css('div.value').text unless row.empty?
     end
 
     def text(parsed_text = extract_text)
-      parsed_text.map { |line| line.strip }.compact.join("\n")
+      parsed_text.map { |line| line.strip }.compact.join("\n") if parsed_text
     end
 
     def extract_text
-      row = document.css(SELECTORS[:text]).first
-      return '' unless row
-      row.inner_html = replace_mana_symbols(row.inner_html)
-      row.css('div.value div.cardtextbox').map(&:text)
+      row = find_row(:text)
+
+      unless row.empty?
+        text_element = row.first
+        text_element.inner_html = replace_mana_symbols(text_element.inner_html)
+        text_element.css('div.value div.cardtextbox').map(&:text)
+      end
     end
 
     def replace_mana_symbols(html)
@@ -101,22 +109,23 @@ module Gatherer
     end
 
     def flavor_text(parsed_text = extract_flavor_text)
-      parsed_text.strip
+      parsed_text.strip if parsed_text
     end
 
     def extract_flavor_text
-      row = document.css(SELECTORS[:flavor_text])
-      return '' unless row
-      row.css('div.cardtextbox').text
+      row = find_row(:flavor_text)
+      row.css('div.cardtextbox').text unless row.empty?
     end
 
     def parse_printing(printing)
-      title = printing.split(' (').first
-      Printing.new(
-        expansion: Expansion.new(title: title, abbreviation: abbreviation(title)),
-        rarity: printing.split(' (').last.chop,
-        number: (number if current_printing?(title))
-      )
+      if printing
+        title = printing.split(' (').first
+        Printing.new(
+          expansion: Expansion.new(title: title, abbreviation: abbreviation(title)),
+          rarity: printing.split(' (').last.chop,
+          number: (number if current_printing?(title))
+        )
+      end
     end
 
     def printings(parsed_text = extract_printings)
@@ -130,7 +139,7 @@ module Gatherer
     end
 
     def current_printing(parsed_text = extract_current_printing)
-      parse_printing(parsed_text)
+      parse_printing(parsed_text) if parsed_text
     end
 
     def current_printing?(title)
@@ -140,9 +149,8 @@ module Gatherer
     end
 
     def extract_current_printing
-      row = document.css(SELECTORS[:set])
-      return '' unless row
-      row.css('img').map { |img| img['title'] }.first
+      row = find_row(:set)
+      row.css('img').map { |img| img['title'] }.first unless row.empty?
     end
 
     def other_printings(parsed_text = extract_other_printings)
@@ -155,9 +163,8 @@ module Gatherer
     end
 
     def extract_other_printings
-      row = document.css(SELECTORS[:other_sets])
-      return '' unless row
-      row.css('img').map { |img| img['title'] }
+      row = find_row(:other_sets)
+      row.css('img').map { |img| img['title'] } if row
     end
 
     def abbreviation(title, parsed_text = nil)
@@ -166,32 +173,33 @@ module Gatherer
     end
 
     def extract_abbreviation(title)
-      images = document.css(SELECTORS[:set]).css('img')
-      return '' unless images
-      images += document.css(SELECTORS[:other_sets]).css('img')
+      images = find_row(:set).css('img')
 
-      images.map do |image|
-        image['src'] if image['title'].include?(title)
-      end.compact.uniq.first
+      unless images.empty?
+        images += document.css(SELECTORS[:other_sets]).css('img')
+
+        images.map do |image|
+          image['src'] if image['title'].include?(title)
+        end.compact.uniq.first
+      end
     end
 
     def power(parsed_text = extract_power_toughness)
-      parsed_text.split('/').first if parsed_text.include?('/')
+      parsed_text.split('/').first if parsed_text && parsed_text.include?('/')
     end
 
     def toughness(parsed_text = extract_power_toughness)
-      parsed_text.split('/').last if parsed_text.include?('/')
+      parsed_text.split('/').last if parsed_text && parsed_text.include?('/')
     end
 
     def extract_power_toughness
-      row = document.css(SELECTORS[:pt])
-      return '' unless row
-      row.css('div.value').text
+      row = find_row(:pt)
+      row.css('div.value').text unless row.empty?
     end
 
     # gatherer uses the pt row to display loyalty
     def loyalty(parsed_text = extract_power_toughness)
-      unless parsed_text.include?('/')
+      if parsed_text && !parsed_text.include?('/')
         parsed_text.to_i if parsed_text.to_i > 0
       end
     end
@@ -201,19 +209,17 @@ module Gatherer
     end
 
     def extract_number
-      row = document.css(SELECTORS[:number])
-      return '' unless row
-      row.css('div.value').text
+      row = find_row(:number)
+      row.css('div.value').text unless row.empty?
     end
 
     def illustrator(parsed_text = extract_illustrator)
-      parsed_text.strip
+      parsed_text.strip if parsed_text
     end
 
     def extract_illustrator
-      row = document.css(SELECTORS[:illustrator])
-      return '' unless row
-      row.css('div.value').text
+      row = find_row(:illustrator)
+      row.css('div.value').text unless row.empty?
     end
 
     def to_hash
