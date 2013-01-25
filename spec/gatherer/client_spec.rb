@@ -3,6 +3,19 @@ require 'spec_helper'
 describe Gatherer::Client do
   let(:client) { Gatherer::Client.new }
 
+  context "#card_from" do
+    context "given a page containing a split card" do
+      let(:page) { Fixture.html 'nezumi_shortfang' }
+
+      it "creates a split card parser" do
+        client.stub(:page_from).and_return(page)
+        Gatherer::SplitCardParser.should_receive(:new)
+
+        client.card_from(mock)
+      end
+    end
+  end
+
   context "#fetch_by_multiverse_id" do
     it "creates a new scraper with a multiverse id" do
       client.stub(:page_from)

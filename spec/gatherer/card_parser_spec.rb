@@ -6,6 +6,14 @@ describe Gatherer::CardParser do
     expect { Gatherer::CardParser.new("<div></div>") }.to raise_error Gatherer::CardNotFound
   end
 
+  context "given html containing a split card" do
+    let(:parser) { Gatherer::CardParser.new(Fixture.html 'nezumi_shortfang') }
+
+    it "creates a split card parser" do
+      Gatherer::SplitCardParser.should_receive(:new)
+    end
+  end
+
   context "given html" do
     let(:parser) { Gatherer::CardParser.new(Fixture.html 'magical_hack') }
 

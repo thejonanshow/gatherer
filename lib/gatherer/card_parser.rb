@@ -23,7 +23,7 @@ module Gatherer
     end
 
     def validate
-      raise CardNotFound if document.css(SELECTORS[:illustrator]).empty?
+      raise CardNotFound if find_row(:illustrator).empty?
     end
 
     def find_row(css)

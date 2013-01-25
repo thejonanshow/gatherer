@@ -17,8 +17,16 @@ module Gatherer
     end
 
     def card_from(scraper)
-      parser = Gatherer::CardParser.new(page_from(scraper))
-      Card.new_from_parser(parser)
+      if page = page_from(scraper).split?
+        parser = Gatherer::CardParser.new(page)
+        Card.new_from_parser(parser)
+      else
+        parsers = Gatherer::SplitCardParser.new(page)
+
+        parsers.map do |parser|
+          Card.new_from_parser(parser)
+        end
+      end
     end
 
     def expansions(homepage_file = nil, expansion_file = nil)
