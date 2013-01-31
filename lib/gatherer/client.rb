@@ -17,16 +17,23 @@ module Gatherer
     end
 
     def card_from(scraper)
-      if page = page_from(scraper).split?
+      page = page_from(scraper)
+
+      if page_has_split?(page)
+        parser = Gatherer::SplitCardParser.new(page)
+
+        [Card.new_from_parser(parser.front), Card.new_from_parser(parser.back)]
+      else
         parser = Gatherer::CardParser.new(page)
         Card.new_from_parser(parser)
-      else
-        parsers = Gatherer::SplitCardParser.new(page)
-
-        parsers.map do |parser|
-          Card.new_from_parser(parser)
-        end
       end
+    end
+
+    def page_has_split?(page)
+      doc = Nokogiri::HTML(page)
+      variations = doc.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_variationLinks')
+
+      variations.length > 0
     end
 
     def expansions(homepage_file = nil, expansion_file = nil)

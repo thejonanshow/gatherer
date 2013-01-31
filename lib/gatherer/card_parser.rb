@@ -1,8 +1,9 @@
 module Gatherer
   class CardParser
     attr_reader :document
+    attr_accessor :selectors
 
-    SELECTORS = {
+    DEFAULT_SELECTORS = {
       title: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow',
       types: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow',
       cmc: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_cmcRow',
@@ -19,6 +20,7 @@ module Gatherer
 
     def initialize(html, validate_card_markup = true)
       @document = Nokogiri::HTML(html)
+      @selectors = DEFAULT_SELECTORS
       validate if validate_card_markup
     end
 
@@ -27,7 +29,7 @@ module Gatherer
     end
 
     def find_row(css)
-      document.css(SELECTORS[css])
+      document.css(selectors[css])
     end
 
     def title(parsed_text = extract_title)
@@ -176,7 +178,7 @@ module Gatherer
       images = find_row(:set).css('img')
 
       unless images.empty?
-        images += document.css(SELECTORS[:other_sets]).css('img')
+        images += document.css(selectors[:other_sets]).css('img')
 
         images.map do |image|
           image['src'] if image['title'].include?(title)
@@ -185,11 +187,11 @@ module Gatherer
     end
 
     def power(parsed_text = extract_power_toughness)
-      parsed_text.split('/').first if parsed_text && parsed_text.include?('/')
+      parsed_text.split('/').first.strip if parsed_text && parsed_text.include?('/')
     end
 
     def toughness(parsed_text = extract_power_toughness)
-      parsed_text.split('/').last if parsed_text && parsed_text.include?('/')
+      parsed_text.split('/').last.strip if parsed_text && parsed_text.include?('/')
     end
 
     def extract_power_toughness

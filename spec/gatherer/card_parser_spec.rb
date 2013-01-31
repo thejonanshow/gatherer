@@ -6,12 +6,10 @@ describe Gatherer::CardParser do
     expect { Gatherer::CardParser.new("<div></div>") }.to raise_error Gatherer::CardNotFound
   end
 
-  context "given html containing a split card" do
-    let(:parser) { Gatherer::CardParser.new(Fixture.html 'nezumi_shortfang') }
-
-    it "creates a split card parser" do
-      Gatherer::SplitCardParser.should_receive(:new)
-    end
+  it "can accept a custom list of selectors" do
+    parser = Gatherer::CardParser.new('', false)
+    parser.selectors = {title: 'foo'}
+    parser.selectors[:title].should == 'foo'
   end
 
   context "given html" do
@@ -219,7 +217,7 @@ describe Gatherer::CardParser do
     end
 
     it "correctly determines the power" do
-      parsed_text = "*/*+1"
+      parsed_text = "\r\n        */*+1                \n"
       parser.power(parsed_text).should == "*"
     end
 
@@ -229,7 +227,7 @@ describe Gatherer::CardParser do
     end
 
     it "correctly determines the toughness" do
-      parsed_text = "*/*+1"
+      parsed_text = "\r\n        */*+1                \n"
       parser.toughness(parsed_text).should == "*+1"
     end
 

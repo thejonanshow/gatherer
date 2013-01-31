@@ -7,12 +7,26 @@ describe Gatherer::Client do
     context "given a page containing a split card" do
       let(:page) { Fixture.html 'nezumi_shortfang' }
 
-      it "creates a split card parser" do
-        client.stub(:page_from).and_return(page)
-        Gatherer::SplitCardParser.should_receive(:new)
+      it "returns cards with the correct titles" do
+        client.stub(:page_from).and_return page
+        cards = client.card_from(mock)
 
-        client.card_from(mock)
+        cards.first.title.should == "Nezumi Shortfang"
+        cards.last.title.should == "Stabwhisker the Odious"
       end
+    end
+  end
+
+  context "#page_has_split?" do
+    let(:split_page) { Fixture.html 'nezumi_shortfang' }
+    let(:page) { Fixture.html 'magical_hack' }
+
+    it "returns true if the html page contains a split card" do
+      client.page_has_split?(split_page).should be true
+    end
+
+    it "returns false if the html page does not contain a split card" do
+      client.page_has_split?(page).should be false
     end
   end
 
