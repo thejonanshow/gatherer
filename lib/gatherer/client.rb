@@ -59,6 +59,12 @@ module Gatherer
       doc = Nokogiri::HTML(file)
       set_images = doc.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl00_listRepeater_ctl00_cardSetCurrent img')
       abbreviation = set_images.first['src'].match(/&set=(.[^&]*)/)[1] unless set_images.empty?
+      if abbreviation
+        abbreviation
+      else
+        puts "Failed to parse expansion abbreviation for #{title}"
+        p set_images
+      end
     end
   end
 end

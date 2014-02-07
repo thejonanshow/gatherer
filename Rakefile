@@ -4,6 +4,8 @@ Bundler.setup
 require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec)
 
+task :default => [:spec]
+
 gemspec = eval(File.read("gatherer.gemspec"))
 
 task :build => "#{gemspec.full_name}.gem"

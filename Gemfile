@@ -9,7 +9,6 @@ gem "rake"
 gem "rspec", "~> 2.12.0"
 
 group :development do
-  gem 'debugger'
   gem 'rb-fsevent', '~> 0.9.1', :require => false
   gem 'guard-rspec'
 end
