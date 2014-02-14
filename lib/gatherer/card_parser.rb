@@ -5,7 +5,7 @@ module Gatherer
 
     DEFAULT_SELECTORS = {
       title: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_nameRow',
-      types: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow',
+      magic_types: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow',
       cmc: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_cmcRow',
       mana: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_manaRow',
       subtypes: 'div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_typeRow',
@@ -41,7 +41,7 @@ module Gatherer
       title_line = row.css('div.value').text if row
     end
 
-    def types(parsed_text = extract_types)
+    def magic_types(parsed_text = extract_types)
       if parsed_text
         types = parsed_text.strip.split("\u2014").first
         types.split.flatten
@@ -49,7 +49,7 @@ module Gatherer
     end
 
     def extract_types
-      row = find_row(:types)
+      row = find_row(:magic_types)
       row.css('div.value').text unless row.empty?
     end
 
@@ -227,7 +227,7 @@ module Gatherer
     def to_hash
       {
         title: title,
-        types: types,
+        magic_types: magic_types,
         mana_cost: mana_cost,
         converted_mana_cost: converted_mana_cost,
         subtypes: subtypes,

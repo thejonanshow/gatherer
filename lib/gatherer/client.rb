@@ -31,7 +31,8 @@ module Gatherer
 
     def page_has_split?(page)
       doc = Nokogiri::HTML(page)
-      variations = doc.css('div#ctl00_ctl00_ctl00_MainContent_SubContent_SubContent_ctl05_variationLinks')
+      variations_id = SplitCardParser.id_from_client_id(doc, 'variationLinks')
+      variations = doc.css("div##{variations_id}")
 
       variations.length > 0
     end

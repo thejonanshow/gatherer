@@ -7,8 +7,8 @@ describe Gatherer::Card do
   end
 
   it "can be created with types" do
-    card = Gatherer::Card.new(types: ["Artifact Creature"])
-    card.types.should == ["Artifact Creature"]
+    card = Gatherer::Card.new(magic_types: ["Artifact Creature"])
+    card.magic_types.should == ["Artifact Creature"]
   end
 
   it "can be created with a mana_cost" do

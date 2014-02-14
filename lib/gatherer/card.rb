@@ -34,7 +34,7 @@ module Gatherer
     }
 
     attr_reader :title,
-                :types,
+                :magic_types,
                 :mana_cost,
                 :converted_mana_cost,
                 :subtypes,
@@ -48,7 +48,7 @@ module Gatherer
 
     def initialize(attributes = {})
       @title = attributes[:title]
-      @types = attributes[:types]
+      @magic_types = attributes[:magic_types]
       @mana_cost = attributes[:mana_cost]
       @converted_mana_cost = attributes[:converted_mana_cost]
       @subtypes = attributes[:subtypes]
@@ -64,7 +64,7 @@ module Gatherer
     def self.new_from_parser(parser)
       new(
         title: parser.title,
-        types: parser.types,
+        magic_types: parser.magic_types,
         mana_cost: parser.mana_cost,
         converted_mana_cost: parser.converted_mana_cost,
         subtypes: parser.subtypes,

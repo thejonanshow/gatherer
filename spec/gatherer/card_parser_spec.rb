@@ -20,7 +20,7 @@ describe Gatherer::CardParser do
     end
 
     it "correctly determines the types" do
-      parser.types.should == ['Instant']
+      parser.magic_types.should == ['Instant']
     end
 
     it "correctly determines the mana cost" do
@@ -111,8 +111,8 @@ describe Gatherer::CardParser do
         expect{parser.title}.to_not raise_error
       end
 
-      it "types" do
-        expect{parser.types}.to_not raise_error
+      it "magic types" do
+        expect{parser.magic_types}.to_not raise_error
       end
 
       it "converted_mana_cost" do
@@ -171,7 +171,7 @@ describe Gatherer::CardParser do
 
     it "correctly determines the types" do
       parsed_text = "Foofy Pants \u2014 Bananas"
-      parser.types(parsed_text).should == ["Foofy", "Pants"]
+      parser.magic_types(parsed_text).should == ["Foofy", "Pants"]
     end
 
     it "correctly determines the mana cost" do
@@ -267,7 +267,7 @@ describe Gatherer::CardParser do
     it "returns a hash of card attributes" do
       parser.to_hash.should == {
         title: "Magical Hack",
-        types: ["Instant"],
+        magic_types: ["Instant"],
         mana_cost: "U",
         converted_mana_cost: 1,
         subtypes: [],
